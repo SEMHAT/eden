@@ -2,6 +2,7 @@ import "server-only";
 import { cookies } from "next/headers";
 import { SignJWT, jwtVerify } from "jose";
 import bcrypt from "bcryptjs";
+import { createHash } from "node:crypto";
 import { redirect } from "next/navigation";
 import { db } from "./db";
 import type { Role } from "@prisma/client";
@@ -9,10 +10,17 @@ import type { Role } from "@prisma/client";
 const COOKIE = "eden_session";
 const MAX_AGE = 60 * 60 * 24 * 14; // 14 jours
 
+let derived: Uint8Array | null = null;
+
 function secret() {
   const s = process.env.AUTH_SECRET;
-  if (!s || s.length < 32) throw new Error("AUTH_SECRET manquant ou trop court (32 caractères minimum)");
-  return new TextEncoder().encode(s);
+  if (s && s.length >= 32) return new TextEncoder().encode(s);
+  // Sans AUTH_SECRET, on dérive une clé de l'URL de la base (secrète elle aussi).
+  // Recommandé en production : définir AUTH_SECRET (changer AUTH_SECRET déconnecte tout le monde).
+  const db = process.env.DATABASE_URL;
+  if (!db) throw new Error("AUTH_SECRET manquant (32 caractères minimum)");
+  if (!derived) derived = new Uint8Array(createHash("sha256").update(`eden-session:${db}`).digest());
+  return derived;
 }
 
 export type Session = { userId: string; role: Role; name: string };
