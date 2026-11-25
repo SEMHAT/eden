@@ -18,9 +18,9 @@ export function DeviceArt({ kind, color = "#20231F", className, title }: Props) 
   const isLight = parseInt(color.slice(1, 3), 16) > 180;
   const screen = (
     <linearGradient id={`${id}-scr`} x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stopColor="#0b4d31" />
-      <stop offset="0.55" stopColor="#063b25" />
-      <stop offset="1" stopColor="#1d140a" />
+      <stop offset="0" stopColor="#f6efe2" />
+      <stop offset="0.55" stopColor="#dfe7dc" />
+      <stop offset="1" stopColor="#a7b9a5" />
     </linearGradient>
   );
   const body = (
@@ -31,11 +31,11 @@ export function DeviceArt({ kind, color = "#20231F", className, title }: Props) 
   );
   const gold = (
     <linearGradient id={`${id}-gold`} x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stopColor="#f3dca4" />
-      <stop offset="1" stopColor="#b98c3e" />
+      <stop offset="0" stopColor="#e3cfab" />
+      <stop offset="1" stopColor="#c6a36a" />
     </linearGradient>
   );
-  const shadow = <ellipse cx="100" cy="186" rx="62" ry="6" fill="#20231f" opacity="0.12" />;
+  const shadow = <ellipse cx="100" cy="186" rx="62" ry="6" fill="#4a3f30" opacity="0.1" />;
   const wave = (x: number, y: number, w: number, h: number) => (
     <path d={`M${x} ${y + h * 0.75} C ${x + w * 0.3} ${y + h * 0.35}, ${x + w * 0.6} ${y + h * 0.95}, ${x + w} ${y + h * 0.3} L ${x + w} ${y + h} L ${x} ${y + h} Z`} fill={`url(#${id}-gold)`} opacity="0.85" />
   );
@@ -153,8 +153,8 @@ export function DeviceArt({ kind, color = "#20231F", className, title }: Props) 
           <rect x="58" y="96" width="30" height="9" rx="3" fill={dark} />
           <rect x="68.5" y="85.5" width="9" height="30" rx="3" fill={dark} />
           <circle cx="132" cy="90" r="6" fill={`url(#${id}-gold)`} />
-          <circle cx="146" cy="102" r="6" fill="#a80f1c" />
-          <circle cx="118" cy="102" r="6" fill="#145c3d" />
+          <circle cx="146" cy="102" r="6" fill="#b82e35" />
+          <circle cx="118" cy="102" r="6" fill="#66866d" />
           <circle cx="132" cy="114" r="6" fill={dark} />
           <circle cx="82" cy="124" r="10" fill={dark} />
           <circle cx="118" cy="124" r="10" fill={dark} />
@@ -218,7 +218,7 @@ export function DeviceArt({ kind, color = "#20231F", className, title }: Props) 
           <rect x="30" y="58" width="140" height="82" rx="14" fill={`url(#${id}-body)`} />
           <rect x="44" y="140" width="112" height="34" rx="8" fill={dark} />
           <rect x="58" y="128" width="84" height="40" rx="3" fill="#fbf8f1" />
-          <rect x="68" y="140" width="50" height="4" rx="2" fill="#d9b36a" />
+          <rect x="68" y="140" width="50" height="4" rx="2" fill="#c6a36a" />
           <rect x="68" y="150" width="64" height="4" rx="2" fill="#e3dccb" />
           <circle cx="150" cy="80" r="4" fill="#2ecc71" />
         </>

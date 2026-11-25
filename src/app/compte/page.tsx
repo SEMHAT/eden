@@ -41,7 +41,7 @@ export default async function Compte() {
         {[["#commandes", "Commandes"], ["#favoris", "Favoris"], ["#bonus", "Bonus"], ["#adresses", "Adresses"], ["#reclamations", "Réclamations"]].map(([h, l]) => (
           <a key={h} href={h} className="rounded-full bg-white px-4 py-2 shadow-[var(--shadow-soft)] hover:text-eden-green">{l}</a>
         ))}
-        {s.role === "PRO" && <Link href="/espace-pro" className="rounded-full bg-eden-green px-4 py-2 text-eden-ivory">Espace professionnel</Link>}
+        {s.role === "PRO" && <Link href="/espace-pro" className="rounded-full bg-eden-green px-4 py-2 text-eden-charcoal">Espace professionnel</Link>}
       </nav>
 
       <section id="commandes" className="mt-10 scroll-mt-24">
@@ -89,10 +89,10 @@ export default async function Compte() {
       </section>
 
       <section id="bonus" className="mt-14 scroll-mt-24">
-        <div className="rounded-[2rem] bg-eden-green p-6 text-eden-ivory sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-eden-gold">Bonus Eden</p>
-          <p className="mt-2 font-display text-5xl font-bold">{user.bonusPoints} <span className="text-xl font-medium text-eden-ivory/70">points</span></p>
-          <p className="mt-2 max-w-lg text-sm text-eden-ivory/75">1 point par tranche de 1 000 FCFA, crédité à la clôture de chaque commande. Les points seront échangeables contre des bonus de personnalisation (coques, sacs, accessoires) selon le barème communiqué par Eden.</p>
+        <div className="rounded-[2rem] bg-[#efe7da] p-6 text-eden-charcoal sm:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-eden-gold-2">Bonus Eden</p>
+          <p className="mt-2 font-display text-5xl font-bold">{user.bonusPoints} <span className="text-xl font-medium text-eden-mute">points</span></p>
+          <p className="mt-2 max-w-lg text-sm text-eden-mute">1 point par tranche de 1 000 FCFA, crédité à la clôture de chaque commande. Les points seront échangeables contre des bonus de personnalisation (coques, sacs, accessoires) selon le barème communiqué par Eden.</p>
         </div>
       </section>
 

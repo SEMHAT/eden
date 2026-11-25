@@ -22,13 +22,13 @@ export default async function Pros() {
   const user = s ? await db.user.findUnique({ where: { id: s.userId }, include: { organization: true } }) : null;
   return (
     <>
-      <section className="bg-eden-green text-eden-ivory">
+      <section className="bg-eden-ivory text-eden-charcoal">
         <Container className="py-14 sm:py-20">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-eden-gold">Professionnels et institutions</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-eden-gold-2">Professionnels et institutions</p>
           <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold leading-tight sm:text-6xl">
             Équipez vos équipes. <span className="gold-text">Simplifiez vos achats.</span>
           </h1>
-          <p className="mt-5 max-w-xl text-eden-ivory/75">Entreprises, écoles, ONG et administrations : Eden centralise vos achats tech auprès de vendeurs vérifiés, avec des devis clairs et un suivi de bout en bout.</p>
+          <p className="mt-5 max-w-xl text-eden-mute">Entreprises, écoles, ONG et administrations : Eden centralise vos achats tech auprès de vendeurs vérifiés, avec des devis clairs et un suivi de bout en bout.</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <ButtonLink href="#devis" variant="gold">Demander un devis</ButtonLink>
             <ButtonLink href={s ? "/espace-pro" : "/inscription?type=pro"} variant="outline-light">{s ? "Mon espace professionnel" : "Créer un compte pro"}</ButtonLink>

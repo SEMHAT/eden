@@ -29,7 +29,7 @@ export default function HowItWorks() {
         <ol className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {STEPS.map(([t, d], i) => (
             <li key={t} className="rounded-[var(--radius-card)] bg-white p-6 shadow-[var(--shadow-soft)]">
-              <span className="grid h-10 w-10 place-items-center rounded-full bg-eden-green font-display font-bold text-eden-gold">{i + 1}</span>
+              <span className="grid h-10 w-10 place-items-center rounded-full bg-eden-green font-display font-bold text-eden-gold-2">{i + 1}</span>
               <p className="mt-4 font-display text-lg font-semibold">{t}</p>
               <p className="mt-2 text-sm text-eden-mute">{d}</p>
             </li>
@@ -43,7 +43,7 @@ export default function HowItWorks() {
               <details key={q} className="group py-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold">
                   {q}
-                  <span className="text-eden-gold transition group-open:rotate-45">+</span>
+                  <span className="text-eden-gold-2 transition group-open:rotate-45">+</span>
                 </summary>
                 <p className="mt-3 text-sm leading-relaxed text-eden-mute">{a}</p>
               </details>

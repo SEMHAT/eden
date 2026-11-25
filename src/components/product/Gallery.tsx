@@ -8,7 +8,7 @@ import { DeviceArt } from "../DeviceArt";
 
 const Product3D = dynamic(() => import("./Product3D"), { ssr: false, loading: () => <div className="grid h-full place-items-center text-sm text-eden-mute">Chargement de la vue 3D…</div> });
 
-const KINDS_3D = ["phone", "tablet", "laptop", "headphones", "watch", "controller", "earbuds"];
+const KINDS_3D = ["phone", "tablet", "laptop", "headphones", "watch", "controller", "earbuds", "speaker", "monitor", "printer"];
 
 type View = { type: "art" } | { type: "image"; src: string } | { type: "video"; src: string } | { type: "3d" };
 

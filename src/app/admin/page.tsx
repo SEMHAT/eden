@@ -131,7 +131,7 @@ async function Dashboard() {
             {days.map((d) => (
               <div key={d.key} className="flex flex-1 flex-col items-center gap-1">
                 <span className="text-[10px] text-eden-mute">{d.n || ""}</span>
-                <div className="w-full rounded-t-md bg-eden-green" style={{ height: `${(d.n / maxN) * 120}px`, minHeight: d.n ? 4 : 1, opacity: d.n ? 1 : 0.15 }} />
+                <div className="w-full rounded-t-md bg-eden-botanical" style={{ height: `${(d.n / maxN) * 120}px`, minHeight: d.n ? 4 : 1, opacity: d.n ? 1 : 0.15 }} />
                 <span className="hidden text-[10px] text-eden-mute sm:block">{d.label}</span>
               </div>
             ))}

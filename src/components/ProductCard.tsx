@@ -9,8 +9,8 @@ import { toggleFavorite } from "@/actions/shop";
 export function ProductCard({ p, favorite, back = "/boutique" }: { p: ProductCardData; favorite?: boolean; back?: string }) {
   const a = cardAvailability(p);
   return (
-    <article className="group relative flex h-full flex-col rounded-[var(--radius-card)] bg-white p-5 shadow-[var(--shadow-soft)] transition duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]">
-      <div className="flex items-start justify-between gap-2">
+    <article className="group relative flex h-full flex-col rounded-[var(--radius-card)] bg-white p-4 shadow-[0_1px_2px_rgb(51_49_46/0.04)] ring-1 ring-eden-charcoal/[0.05] transition duration-500 hover:-translate-y-1 hover:shadow-[var(--shadow-lift)]">
+      <div className="absolute left-6 right-6 top-6 z-10 flex items-start justify-between gap-2">
         <div className="flex flex-wrap gap-1.5">
           {p.isNew && <Badge tone="gold">Nouveau</Badge>}
           {p.condition !== "NEUF" && <Badge tone="green">{CONDITION_LABEL[p.condition]}</Badge>}
@@ -25,13 +25,13 @@ export function ProductCard({ p, favorite, back = "/boutique" }: { p: ProductCar
       </div>
       <Link href={`/produit/${p.slug}`} className="mt-1 block focus:outline-none" aria-label={`${p.brand} ${p.name}`}>
         <span className="absolute inset-0 rounded-[var(--radius-card)]" aria-hidden />
-        <div className="mx-auto aspect-square w-40 transition duration-500 group-hover:scale-105 group-hover:-rotate-2">
+        <div className="mx-auto grid aspect-[5/4] w-full place-items-center rounded-[1.25rem] bg-eden-ivory transition duration-700"><div className="aspect-square w-[62%] transition duration-700 group-hover:scale-[1.06] group-hover:-rotate-2">
           <DeviceArt kind={p.illustration} color={p.color} className="h-full w-full" title={p.name} />
-        </div>
+        </div></div>
       </Link>
-      <div className="mt-3 flex flex-1 flex-col">
+      <div className="mt-4 flex flex-1 flex-col px-1">
         <p className="text-xs font-medium uppercase tracking-wider text-eden-mute">{p.brand}</p>
-        <h3 className="mt-0.5 font-display text-[15px] font-semibold leading-snug">{p.name}</h3>
+        <h3 className="mt-0.5 font-display text-[15px] font-medium leading-snug tracking-tight">{p.name}</h3>
         <div className="mt-2">
           <Availability level={a.availability} compact />
         </div>

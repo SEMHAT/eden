@@ -1,23 +1,29 @@
 @import "tailwindcss";
 
 @theme {
-  --color-eden-green: #063b25;
-  --color-eden-green-2: #0b4d31;
-  --color-eden-green-3: #145c3d;
-  --color-eden-red: #a80f1c;
-  --color-eden-gold: #d9b36a;
-  --color-eden-gold-2: #c69c4d;
-  --color-eden-ivory: #f8f3e9;
-  --color-eden-ivory-2: #efe7d6;
-  --color-eden-charcoal: #20231f;
-  --color-eden-mute: #5e625a;
+  /* EDEN — The Art of Technology : palette claire */
+  --color-eden-ivory: #f5f0e7; /* ivoire champagne */
+  --color-eden-ivory-2: #ece5d8;
+  --color-eden-porcelain: #fcfbf8; /* porcelaine */
+  --color-eden-sage: #a7b9a5; /* sauge */
+  --color-eden-botanical: #66866d; /* vert botanique */
+  --color-eden-red: #b82e35; /* rouge pomme */
+  --color-eden-gold: #c6a36a; /* or champagne */
+  --color-eden-gold-2: #9c7b45; /* or lisible sur fond clair */
+  --color-eden-charcoal: #33312e; /* graphite chaud */
+  --color-eden-mute: #77736c;
+  /* alias historiques : l'ancien « vert » devient le graphite des actions */
+  --color-eden-green: #33312e;
+  --color-eden-green-2: #4a4743;
+  --color-eden-green-3: #66866d;
 
   --font-display: "Sora Variable", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces Variable", ui-serif, Georgia, serif;
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
 
-  --radius-card: 1.5rem;
-  --shadow-soft: 0 1px 2px rgb(32 35 31 / 0.04), 0 8px 24px rgb(32 35 31 / 0.06);
-  --shadow-lift: 0 2px 4px rgb(32 35 31 / 0.05), 0 18px 40px rgb(32 35 31 / 0.12);
+  --radius-card: 1.75rem;
+  --shadow-soft: 0 1px 2px rgb(51 49 46 / 0.04), 0 10px 30px rgb(51 49 46 / 0.06);
+  --shadow-lift: 0 2px 6px rgb(51 49 46 / 0.05), 0 24px 50px rgb(51 49 46 / 0.1);
 }
 
 :root {
@@ -25,7 +31,7 @@
 }
 
 html {
-  background: var(--color-eden-ivory);
+  background: var(--color-eden-porcelain);
   color: var(--color-eden-charcoal);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -63,6 +69,12 @@ h3,
 .headline span {
   color: var(--color-eden-mute);
 }
+.headline em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 380;
+  color: var(--color-eden-botanical);
+}
 
 .shelf {
   display: grid;
@@ -82,11 +94,22 @@ h3,
   scroll-snap-align: start;
 }
 
-.gold-text {
-  background: linear-gradient(100deg, #f3dca4 0%, #d9b36a 45%, #b98c3e 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* accent éditorial : serif italique, couleur unie (pas de dégradé doré) */
+.gold-text,
+.serif-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 380;
+  letter-spacing: -0.01em;
+  color: var(--color-eden-botanical);
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-eden-gold-2);
 }
 
 .focus-ring:focus-visible,
@@ -107,8 +130,8 @@ input[type="range"].eden-range {
     to right,
     var(--color-eden-green) 0%,
     var(--color-eden-green) var(--pct, 50%),
-    #dcd5c6 var(--pct, 50%),
-    #dcd5c6 100%
+    #e4ddd0 var(--pct, 50%),
+    #e4ddd0 100%
   );
 }
 input[type="range"].eden-range::-webkit-slider-thumb {
@@ -129,4 +152,19 @@ input[type="range"].eden-range::-moz-range-thumb {
   border: 5px solid #fff;
   box-shadow: 0 2px 8px rgb(0 0 0 / 0.25);
   cursor: pointer;
+}
+
+/* voile de l'introduction */
+#intro-veil {
+  display: none;
+}
+html[data-intro] #intro-veil {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 89;
+  background: var(--color-eden-ivory);
+}
+html[data-intro] body {
+  overflow: hidden;
 }

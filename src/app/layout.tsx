@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/sora";
 import "@fontsource-variable/inter";
+import "@fontsource-variable/fraunces/wght-italic.css";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -13,12 +14,21 @@ export const metadata: Metadata = {
   openGraph: { title: "EDEN — La tech qui vous ressemble", description: "Dis-nous ton budget. On s'occupe du reste.", locale: "fr_TG", type: "website" },
 };
 
-export const viewport: Viewport = { themeColor: "#063B25", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#F5F0E7", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr">
+    <html lang="fr" suppressHydrationWarning>
+      <head>
+        {/* voile ivoire posé avant l'affichage si l'introduction doit être jouée (évite un flash du site) */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var q=new URLSearchParams(location.search).get("intro");if(location.pathname==="/"&&(q==="1"||(q!=="0"&&!localStorage.getItem("eden_intro_vue"))))document.documentElement.setAttribute("data-intro","pending")}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="min-h-dvh">
+        <div id="intro-veil" aria-hidden />
         <a href="#contenu" className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[60] focus:rounded-full focus:bg-eden-gold focus:px-4 focus:py-2 focus:text-eden-green">
           Aller au contenu
         </a>

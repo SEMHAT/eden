@@ -30,10 +30,10 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
   return (
     <Container className="py-10">
       {fresh && (
-        <div className="mb-8 rounded-[2rem] bg-eden-green p-6 text-eden-ivory sm:p-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-eden-gold">Merci !</p>
+        <div className="mb-8 rounded-[2rem] bg-[#efe7da] p-6 text-eden-charcoal sm:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-eden-gold-2">Merci !</p>
           <h1 className="mt-2 font-display text-3xl font-bold">Commande {order.number} reçue.</h1>
-          <p className="mt-2 max-w-xl text-eden-ivory/80">Nous demandons maintenant la confirmation de disponibilité au vendeur. Rien n&apos;est encaissé avant cette confirmation. Gardez ce lien pour suivre votre commande.</p>
+          <p className="mt-2 max-w-xl text-eden-mute">Nous demandons maintenant la confirmation de disponibilité au vendeur. Rien n&apos;est encaissé avant cette confirmation. Gardez ce lien pour suivre votre commande.</p>
         </div>
       )}
       {!fresh && <h1 className="headline">Commande {order.number}.</h1>}
@@ -46,7 +46,7 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
       {!ended && (
         <ol className="mt-8 grid gap-3 sm:grid-cols-5" aria-label="Étapes de la commande">
           {TRACKING_STEPS.map((st, i) => (
-            <li key={st.key} className={clsx("rounded-2xl p-4 text-sm", i < idx ? "bg-eden-green/10 text-eden-green" : i === idx ? "bg-eden-green text-eden-ivory" : "bg-white text-eden-mute")}>
+            <li key={st.key} className={clsx("rounded-2xl p-4 text-sm", i < idx ? "bg-eden-sage/25 text-[#3f5a45]" : i === idx ? "bg-eden-charcoal text-eden-porcelain" : "bg-white text-eden-mute")}>
               <span className="font-display font-bold">{i + 1}</span>
               <p className="mt-1 font-medium">{st.label}</p>
             </li>
@@ -140,7 +140,7 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
             {order.status === "DELIVERED" && (
               <form action={confirmReception}>
                 <input type="hidden" name="number" value={order.number} />
-                <button className="w-full rounded-full bg-eden-green py-3 text-sm font-semibold text-eden-ivory">Confirmer la réception</button>
+                <button className="w-full rounded-full bg-eden-green py-3 text-sm font-semibold text-eden-charcoal">Confirmer la réception</button>
               </form>
             )}
             <ButtonLink href="/boutique" variant="outline" className="w-full">Continuer mes achats</ButtonLink>

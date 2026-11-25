@@ -45,7 +45,7 @@ export function BudgetBar({ variant = "home" }: { variant?: "home" | "page" }) {
     >
       <div className="grid items-center gap-6 lg:grid-cols-[auto_1fr_auto]">
         <div className="flex items-center gap-3">
-          <span className="grid h-12 w-12 place-items-center rounded-2xl bg-eden-green text-eden-gold">
+          <span className="grid h-12 w-12 place-items-center rounded-2xl bg-eden-ivory text-eden-botanical">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="5" y="3" width="14" height="18" rx="2" /><path d="M8 7h8M8 11h2M12 11h2M16 11h0M8 15h2M12 15h2M8 18h2M12 18h4" /></svg>
           </span>
           <h2 className="font-display text-lg font-semibold">Quel est votre budget ?</h2>
@@ -82,7 +82,7 @@ export function BudgetBar({ variant = "home" }: { variant?: "home" | "page" }) {
             <span>{fcfa(MAX)} et plus</span>
           </div>
         </div>
-        <button className="inline-flex items-center justify-center gap-2 rounded-full bg-eden-green px-7 py-4 text-sm font-semibold text-eden-ivory transition hover:bg-eden-green-2">
+        <button className="inline-flex items-center justify-center gap-2 rounded-full bg-eden-green px-7 py-4 text-sm font-semibold text-eden-charcoal transition hover:bg-eden-green-2">
           Voir les produits →
         </button>
       </div>
@@ -94,7 +94,7 @@ export function BudgetBar({ variant = "home" }: { variant?: "home" | "page" }) {
               key={c.slug}
               onClick={() => setCat(c.slug)}
               aria-pressed={cat === c.slug}
-              className={clsx("rounded-full border px-3.5 py-1.5 text-sm transition", cat === c.slug ? "border-eden-green bg-eden-green text-eden-ivory" : "border-eden-charcoal/15 hover:border-eden-green")}
+              className={clsx("rounded-full border px-3.5 py-1.5 text-sm transition", cat === c.slug ? "border-eden-green bg-eden-ivory text-eden-charcoal" : "border-eden-charcoal/15 hover:border-eden-green")}
             >
               {c.label}
             </button>

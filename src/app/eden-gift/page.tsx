@@ -26,17 +26,17 @@ export default async function EdenGift({ searchParams }: { searchParams: Promise
 
   return (
     <>
-      <section className="relative overflow-hidden bg-eden-green text-eden-ivory">
-        <div className="pointer-events-none absolute -right-32 -top-32 h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(circle,rgba(217,179,106,0.35),transparent_65%)]" />
-        <div className="pointer-events-none absolute -bottom-40 -left-20 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(168,15,28,0.3),transparent_65%)]" />
+      <section className="relative overflow-hidden bg-eden-ivory text-eden-charcoal">
+        <div className="pointer-events-none absolute -right-32 -top-32 h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.9),transparent_65%)]" />
+        
         <Container className="relative grid gap-10 py-14 lg:grid-cols-[1fr_1.2fr] lg:items-center lg:py-20">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-eden-gold">Eden Gift</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-eden-gold-2">Eden Gift</p>
             <h1 className="mt-3 font-display text-4xl font-bold leading-tight sm:text-6xl">
               Offrir juste. <span className="gold-text">Sans chercher.</span>
             </h1>
-            <p className="mt-5 max-w-md text-eden-ivory/75">Quatre questions, une sélection pensée pour la personne. Puis vous choisissez l&apos;emballage et le message : Eden prépare et livre.</p>
-            <ul className="mt-6 space-y-2 text-sm text-eden-ivory/80">
+            <p className="mt-5 max-w-md text-eden-mute">Quatre questions, une sélection pensée pour la personne. Puis vous choisissez l&apos;emballage et le message : Eden prépare et livre.</p>
+            <ul className="mt-6 space-y-2 text-sm text-eden-mute">
               <li>1. Le destinataire, 2. l&apos;occasion, 3. le budget, 4. ses goûts</li>
               <li>5. La sélection d&apos;Eden, 6. la présentation du cadeau</li>
             </ul>
@@ -96,7 +96,7 @@ export default async function EdenGift({ searchParams }: { searchParams: Promise
                 <span className="mb-1.5 block font-medium">Votre message (280 caractères max.)</span>
                 <textarea name="giftNote" maxLength={280} rows={3} placeholder="Joyeux anniversaire ! Avec toute mon affection." className="w-full rounded-xl border border-eden-charcoal/15 px-4 py-3 outline-none focus:border-eden-green" />
               </label>
-              <button className="rounded-full bg-eden-green px-6 py-3 text-sm font-semibold text-eden-ivory">Enregistrer et voir mon panier</button>
+              <button className="rounded-full bg-eden-green px-6 py-3 text-sm font-semibold text-eden-charcoal">Enregistrer et voir mon panier</button>
             </form>
           </section>
         </Container>

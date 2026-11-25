@@ -6,16 +6,16 @@ import { fcfa, dateTimeFr } from "@/lib/format";
 type Variant = "gold" | "green" | "outline" | "outline-light" | "ghost" | "danger";
 
 const variants: Record<Variant, string> = {
-  gold: "bg-gradient-to-b from-[#ecd197] to-eden-gold text-eden-green hover:brightness-105 shadow-[0_6px_20px_rgb(217_179_106/0.35)]",
-  green: "bg-eden-green text-eden-ivory hover:bg-eden-green-2",
-  outline: "border border-eden-green/25 text-eden-green hover:border-eden-green hover:bg-eden-green/5",
-  "outline-light": "border border-eden-gold/70 text-eden-ivory hover:bg-eden-gold/10",
-  ghost: "text-eden-green hover:bg-eden-green/5",
+  gold: "bg-eden-gold text-eden-charcoal hover:bg-[#d2b37f]",
+  green: "bg-eden-charcoal text-eden-porcelain hover:bg-eden-green-2",
+  outline: "border border-eden-charcoal/20 text-eden-charcoal hover:border-eden-charcoal hover:bg-eden-charcoal/[0.03]",
+  "outline-light": "border border-eden-charcoal/20 text-eden-charcoal hover:border-eden-charcoal",
+  ghost: "text-eden-charcoal hover:bg-eden-charcoal/5",
   danger: "border border-eden-red/30 text-eden-red hover:bg-eden-red/5",
 };
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]";
+  "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium tracking-tight transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]";
 
 export function Button({ variant = "green", className, ...p }: ComponentProps<"button"> & { variant?: Variant }) {
   return <button className={clsx(base, variants[variant], className)} {...p} />;
@@ -44,10 +44,10 @@ export function Card({ className, ...p }: ComponentProps<"div">) {
 export function Badge({ tone = "neutral", className, children }: { tone?: "neutral" | "green" | "gold" | "red" | "dark"; className?: string; children: ReactNode }) {
   const tones = {
     neutral: "bg-eden-ivory-2 text-eden-charcoal",
-    green: "bg-eden-green/10 text-eden-green",
+    green: "bg-eden-sage/25 text-[#3f5a45]",
     gold: "bg-eden-gold/20 text-[#7a5a1c]",
     red: "bg-eden-red/10 text-eden-red",
-    dark: "bg-eden-green text-eden-ivory",
+    dark: "bg-eden-charcoal text-eden-porcelain",
   };
   return <span className={clsx("inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide", tones[tone], className)}>{children}</span>;
 }
@@ -55,8 +55,8 @@ export function Badge({ tone = "neutral", className, children }: { tone?: "neutr
 export function Availability({ level, confirmedAt, compact }: { level: "CONFIRMED" | "TO_CONFIRM" | "OUT_OF_STOCK"; confirmedAt?: Date | null; compact?: boolean }) {
   if (level === "CONFIRMED")
     return (
-      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-eden-green">
-        <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden />
+      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[#4d6b54]">
+        <span className="h-2 w-2 rounded-full bg-eden-botanical" aria-hidden />
         {compact ? "Disponibilité confirmée" : `Disponibilité confirmée${confirmedAt ? ` le ${dateTimeFr(confirmedAt)}` : ""}`}
       </span>
     );
@@ -85,7 +85,7 @@ export function Price({ value, className, prefix }: { value: number | null; clas
   );
 }
 
-const field = "w-full rounded-xl border border-eden-charcoal/15 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-eden-green focus:ring-2 focus:ring-eden-green/15";
+const field = "w-full rounded-xl border border-eden-charcoal/15 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-eden-botanical focus:ring-2 focus:ring-eden-sage/30";
 
 export function Input({ className, ...p }: ComponentProps<"input">) {
   return <input className={clsx(field, className)} {...p} />;
@@ -117,7 +117,7 @@ export function EmptyState({ title, text, action }: { title: string; text?: stri
 
 export function PageHeader({ title, tagline, children }: { title: string; tagline?: string; children?: ReactNode }) {
   return (
-    <div className="border-b border-eden-charcoal/5 bg-gradient-to-b from-eden-ivory-2/60 to-eden-ivory">
+    <div className="border-b border-eden-charcoal/5 bg-eden-ivory">
       <Container className="py-10 sm:py-14">
         <Headline as="h1" title={title} tagline={tagline} />
         {children}

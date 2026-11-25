@@ -11,7 +11,7 @@ function SubmitAdd({ compact, label }: { compact?: boolean; label: string }) {
     <button
       disabled={pending}
       className={clsx(
-        "inline-flex items-center justify-center gap-2 rounded-full bg-eden-green font-semibold text-eden-ivory transition hover:bg-eden-green-2 disabled:opacity-60",
+        "inline-flex items-center justify-center gap-2 rounded-full bg-eden-charcoal font-medium text-eden-porcelain transition hover:bg-eden-green-2 disabled:opacity-60",
         compact ? "h-10 w-10" : "px-5 py-2.5 text-sm",
       )}
       aria-label={label}

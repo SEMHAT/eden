@@ -169,3 +169,14 @@ export async function refreshProductPrice(productId: string) {
   const o = bestOffer(offers);
   await db.product.update({ where: { id: productId }, data: { fromPrice: o?.salePrice ?? null } });
 }
+
+/** Produits d'une catégorie (sous-catégories comprises), les plus demandés d'abord. */
+export async function byCategory(slug: string, take = 10) {
+  const ids = await categoryIds(slug);
+  return db.product.findMany({
+    where: { active: true, fromPrice: { not: null }, categoryId: { in: ids } },
+    orderBy: [{ isFeatured: "desc" }, { popularity: "desc" }],
+    take,
+    select: productCardSelect,
+  });
+}

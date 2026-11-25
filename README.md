@@ -4,6 +4,20 @@ Plateforme de commerce technologique pour le Togo : boutique, recherche par budg
 
 > **Dis-nous ton budget. On s'occupe du reste.**
 
+## Direction artistique : « The Art of Technology »
+
+Site lumineux et éditorial (ivoire, porcelaine, sauge, vert botanique, rouge pomme, or champagne, graphite), typographies Sora, Inter et Fraunces italique.
+
+- **Introduction cinématique** (`src/components/intro/`) : le logo traversé par une lumière devient une sculpture 3D, la caméra révèle sa profondeur, les produits apparaissent puis orbitent, et la caméra s'approche. Le visiteur peut entrer ou passer l'introduction, qui est mémorisée (`localStorage`) et peut être rejouée depuis le pied de page. Le son est optionnel et synthétisé dans le navigateur, sans fichier audio. Une version statique s'affiche si l'utilisateur préfère moins de mouvement ou si l'appareil ne gère pas la 3D.
+- **Hero** : la sculpture EDEN (pomme, morsure, feuille et triangle doré) entourée de cinq produits cliquables.
+- **Cinq expériences au défilement** (`src/components/three/scenes/`), chacune avec sa lumière, sa trajectoire de caméra et sa narration, et chacune débouche sur les vrais produits du catalogue :
+  - ordinateur à charnière mécanique, écran qui s'allume, clavier, profil ;
+  - smartphone qui entre, module photo mis en valeur, vue éclatée maîtrisée, écran-portail ;
+  - écouteurs qui sortent du boîtier, casque, montre décomposée, enceinte, composition finale ;
+  - manette avec boutons, sticks et gâchettes, lumières plus vives, consoles ;
+  - bureau architectural avec écran, ordinateur et imprimante, menant au devis.
+- Modèles 3D construits en code (`src/components/three/models.tsx`) : aucun fichier externe, aucune licence tierce. Chaque scène n'est chargée qu'à l'approche de sa section et ne calcule que lorsqu'elle est visible. La qualité s'adapte à l'appareil, et une version 2D s'affiche sur les appareils non compatibles.
+
 ## Ce qui fonctionne
 
 | Domaine | Fonctionnalités |

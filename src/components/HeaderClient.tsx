@@ -12,7 +12,7 @@ const NAV = [
   { href: "/comment-ca-marche", label: "Comment ça marche" },
 ];
 
-const iconBtn = "relative grid h-10 w-10 place-items-center rounded-full transition hover:bg-white/10";
+const iconBtn = "relative grid h-10 w-10 place-items-center rounded-full transition hover:bg-eden-charcoal/5";
 
 export function HeaderClient({ count, accountHref, signedIn, name }: { count: number; accountHref: string; signedIn: boolean; name: string | null }) {
   const [menu, setMenu] = useState(false);
@@ -42,7 +42,7 @@ export function HeaderClient({ count, accountHref, signedIn, name }: { count: nu
       </button>
       <Link href={accountHref} className={iconBtn} aria-label={signedIn ? `Mon espace (${name})` : "Se connecter"}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" /></svg>
-        {signedIn && <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-eden-gold" aria-hidden />}
+        {signedIn && <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-eden-botanical" aria-hidden />}
       </Link>
       <Link href="/panier" className={iconBtn} aria-label={`Panier, ${count} article${count > 1 ? "s" : ""}`}>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6" /><circle cx="10" cy="20" r="1.3" /><circle cx="17" cy="20" r="1.3" /></svg>
@@ -62,7 +62,7 @@ export function HeaderClient({ count, accountHref, signedIn, name }: { count: nu
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="absolute inset-x-0 top-16 border-b border-white/10 bg-eden-green/95 backdrop-blur-xl"
+            className="absolute inset-x-0 top-16 border-b border-eden-charcoal/5 bg-eden-porcelain/95 backdrop-blur-xl"
           >
             <form
               className="mx-auto flex max-w-3xl items-center gap-3 px-5 py-5"
@@ -76,9 +76,9 @@ export function HeaderClient({ count, accountHref, signedIn, name }: { count: nu
                 ref={inputRef}
                 name="q"
                 placeholder="Rechercher un produit, une marque…"
-                className="w-full rounded-full border border-white/15 bg-white/10 px-5 py-3 text-eden-ivory placeholder:text-eden-ivory/50 outline-none focus:border-eden-gold"
+                className="w-full rounded-full border border-eden-charcoal/10 bg-white px-5 py-3 text-eden-charcoal placeholder:text-eden-mute outline-none focus:border-eden-botanical"
               />
-              <button className="rounded-full bg-eden-gold px-5 py-3 text-sm font-semibold text-eden-green">Rechercher</button>
+              <button className="rounded-full bg-eden-charcoal px-5 py-3 text-sm font-medium text-eden-porcelain">Rechercher</button>
             </form>
           </motion.div>
         )}
@@ -90,22 +90,22 @@ export function HeaderClient({ count, accountHref, signedIn, name }: { count: nu
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-x-0 bottom-0 top-16 z-40 bg-eden-green px-6 py-6 lg:hidden"
+            className="fixed inset-x-0 bottom-0 top-16 z-40 bg-eden-porcelain px-6 py-6 lg:hidden"
             aria-label="Menu mobile"
           >
             <ul className="space-y-1">
               {NAV.map((n, i) => (
                 <motion.li key={n.href} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.04 * i }}>
-                  <Link href={n.href} className="flex items-center justify-between border-b border-white/10 py-4 font-display text-2xl font-semibold">
+                  <Link href={n.href} className="flex items-center justify-between border-b border-eden-charcoal/10 py-4 font-display text-2xl font-medium">
                     {n.label}
-                    <span className="text-eden-gold">→</span>
+                    <span className="text-eden-gold-2">→</span>
                   </Link>
                 </motion.li>
               ))}
             </ul>
             <div className="mt-8 grid grid-cols-2 gap-3 text-sm">
-              <Link href={accountHref} className="rounded-2xl bg-white/5 p-4">{signedIn ? "Mon espace" : "Se connecter"}</Link>
-              <Link href="/panier" className="rounded-2xl bg-white/5 p-4">Panier ({count})</Link>
+              <Link href={accountHref} className="rounded-2xl bg-eden-ivory p-4">{signedIn ? "Mon espace" : "Se connecter"}</Link>
+              <Link href="/panier" className="rounded-2xl bg-eden-ivory p-4">Panier ({count})</Link>
             </div>
           </motion.nav>
         )}

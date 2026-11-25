@@ -63,36 +63,36 @@ export default async function Trouver({ searchParams }: { searchParams: Promise<
 
   return (
     <>
-      <section className="bg-eden-green text-eden-ivory">
+      <section className="bg-eden-ivory text-eden-charcoal">
         <Container className="py-12 sm:py-16">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-eden-gold">Trouver mon produit</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-eden-gold-2">Trouver mon produit</p>
           <h1 className="mt-3 max-w-3xl font-display text-4xl font-bold leading-tight sm:text-5xl">
             Dites-nous ce qu&apos;il vous faut. <span className="gold-text">Eden s&apos;occupe du reste.</span>
           </h1>
-          <form action="/trouver" className="mt-8 grid gap-4 rounded-[2rem] bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur sm:p-6 lg:grid-cols-[1fr_200px_220px_auto] lg:items-end">
+          <form action="/trouver" className="mt-8 grid gap-4 rounded-[2rem] bg-white/80 p-5 ring-1 ring-eden-charcoal/[0.06] shadow-[var(--shadow-soft)] backdrop-blur sm:p-6 lg:grid-cols-[1fr_200px_220px_auto] lg:items-end">
             <label className="block">
-              <span className="mb-1.5 block text-sm text-eden-ivory/80">Votre besoin, avec vos mots</span>
-              <textarea name="besoin" defaultValue={text} rows={2} placeholder={EXAMPLES[0]} className="w-full resize-none rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-eden-ivory placeholder:text-eden-ivory/40 outline-none focus:border-eden-gold" />
+              <span className="mb-1.5 block text-sm text-eden-mute">Votre besoin, avec vos mots</span>
+              <textarea name="besoin" defaultValue={text} rows={2} placeholder={EXAMPLES[0]} className="w-full resize-none rounded-2xl border border-eden-charcoal/12 bg-white px-4 py-3 text-eden-charcoal placeholder:text-eden-mute outline-none focus:border-eden-botanical" />
             </label>
             <label className="block">
-              <span className="mb-1.5 block text-sm text-eden-ivory/80">Budget (FCFA)</span>
-              <input name="budget" inputMode="numeric" pattern="[0-9]*" defaultValue={sp.budget ?? ""} placeholder="250000" className="w-full rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-eden-ivory placeholder:text-eden-ivory/40 outline-none focus:border-eden-gold" />
+              <span className="mb-1.5 block text-sm text-eden-mute">Budget (FCFA)</span>
+              <input name="budget" inputMode="numeric" pattern="[0-9]*" defaultValue={sp.budget ?? ""} placeholder="250000" className="w-full rounded-2xl border border-eden-charcoal/12 bg-white px-4 py-3 text-eden-charcoal placeholder:text-eden-mute outline-none focus:border-eden-botanical" />
             </label>
             <label className="block">
-              <span className="mb-1.5 block text-sm text-eden-ivory/80">Catégorie</span>
-              <select name="categorie" defaultValue={sp.categorie ?? ""} className="w-full rounded-2xl border border-white/15 bg-eden-green-2 px-4 py-3 text-eden-ivory outline-none focus:border-eden-gold">
+              <span className="mb-1.5 block text-sm text-eden-mute">Catégorie</span>
+              <select name="categorie" defaultValue={sp.categorie ?? ""} className="w-full rounded-2xl border border-eden-charcoal/12 bg-white px-4 py-3 text-eden-charcoal outline-none focus:border-eden-botanical">
                 {CATEGORIES.map(([v, l]) => (
                   <option key={v} value={v}>{l}</option>
                 ))}
               </select>
             </label>
-            <button className="rounded-full bg-gradient-to-b from-[#ecd197] to-eden-gold px-7 py-3.5 font-semibold text-eden-green">Trouver</button>
+            <button className="rounded-full bg-eden-charcoal px-7 py-3.5 font-medium text-eden-porcelain">Trouver</button>
           </form>
           {!searched && (
             <div className="mt-5 flex flex-wrap gap-2 text-sm">
-              <span className="text-eden-ivory/60">Exemples :</span>
+              <span className="text-eden-mute">Exemples :</span>
               {EXAMPLES.map((e) => (
-                <Link key={e} href={`/trouver?besoin=${encodeURIComponent(e)}`} className="rounded-full bg-white/10 px-3 py-1 text-eden-ivory/85 hover:bg-white/15">
+                <Link key={e} href={`/trouver?besoin=${encodeURIComponent(e)}`} className="rounded-full bg-white px-3 py-1 text-eden-charcoal/80 ring-1 ring-eden-charcoal/10 hover:ring-eden-charcoal/30">
                   {e.length > 60 ? e.slice(0, 58) + "…" : e}
                 </Link>
               ))}

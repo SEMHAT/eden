@@ -77,13 +77,13 @@ export default async function Comparer({ searchParams }: { searchParams: Promise
           </table>
         </div>
 
-        <section className="mt-10 rounded-[var(--radius-card)] bg-eden-green p-6 text-eden-ivory sm:p-8">
+        <section className="mt-10 rounded-[var(--radius-card)] bg-[#efe7da] p-6 text-eden-charcoal sm:p-8">
           <h2 className="font-display text-xl font-semibold">Ce qui les distingue</h2>
-          <p className="mt-1 text-sm text-eden-ivory/70">Par rapport à {recos[0].brand} {recos[0].name} :</p>
+          <p className="mt-1 text-sm text-eden-mute">Par rapport à {recos[0].brand} {recos[0].name} :</p>
           <ul className="mt-4 space-y-3 text-sm">
             {diffs.map((d) => (
               <li key={d.name}>
-                <span className="font-semibold text-eden-gold">{d.name}</span> : {d.lines.length ? d.lines.join(", ") : "caractéristiques très proches"}.
+                <span className="font-semibold text-eden-gold-2">{d.name}</span> : {d.lines.length ? d.lines.join(", ") : "caractéristiques très proches"}.
               </li>
             ))}
           </ul>
