@@ -8,6 +8,7 @@ const NAV = [
   { href: "/boutique", label: "Boutique" },
   { href: "/trouver", label: "Trouver mon produit" },
   { href: "/eden-gift", label: "Eden Gift" },
+  { href: "/import", label: "Import" },
   { href: "/professionnels", label: "Professionnels" },
   { href: "/comment-ca-marche", label: "Comment ça marche" },
 ];

@@ -66,9 +66,11 @@ export function computeTotals(input: {
   deliveryFee: number;
   promoPercent?: number;
   giftWrap?: boolean;
+  customFees?: number; // personnalisation, hors remise
 }) {
   const discount = input.promoPercent ? Math.round((input.subtotal * input.promoPercent) / 100) : 0;
   const giftWrapFee = input.giftWrap ? GIFT_WRAP_FEE : 0;
-  const total = Math.max(0, input.subtotal - discount) + input.deliveryFee + giftWrapFee;
-  return { discount, giftWrapFee, total };
+  const customFees = input.customFees ?? 0;
+  const total = Math.max(0, input.subtotal - discount) + customFees + input.deliveryFee + giftWrapFee;
+  return { discount, giftWrapFee, customFees, total };
 }

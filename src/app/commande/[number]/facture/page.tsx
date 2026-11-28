@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { db } from "@/lib/db";
+import { describeCustom } from "@/lib/custom-server";
 import { canSeeOrder } from "@/lib/access";
 import { fcfa, dateFr, PAYMENT_LABEL, DELIVERY_LABEL } from "@/lib/format";
 import { PrintButton } from "@/components/PrintButton";
@@ -42,10 +43,10 @@ export default async function Invoice({ params }: { params: Promise<{ number: st
         <tbody>
           {o.items.map((i) => (
             <tr key={i.id} className="border-b border-eden-charcoal/5">
-              <td className="py-2">{i.productName}</td>
+              <td className="py-2">{i.productName}{i.custom ? <span className="block text-xs text-eden-mute">Personnalisation : {describeCustom(i.custom).join(", ")} (+ {fcfa(i.customFee)})</span> : null}</td>
               <td className="py-2 text-right">{i.quantity}</td>
               <td className="py-2 text-right">{fcfa(i.unitPrice)}</td>
-              <td className="py-2 text-right">{fcfa(i.unitPrice * i.quantity)}</td>
+              <td className="py-2 text-right">{fcfa((i.unitPrice + i.customFee) * i.quantity)}</td>
             </tr>
           ))}
         </tbody>
@@ -53,6 +54,7 @@ export default async function Invoice({ params }: { params: Promise<{ number: st
       <dl className="ml-auto mt-6 w-64 space-y-1 text-sm">
         <div className="flex justify-between"><dt>Sous-total</dt><dd>{fcfa(o.subtotal)}</dd></div>
         {o.discount > 0 && <div className="flex justify-between"><dt>Remise</dt><dd>− {fcfa(o.discount)}</dd></div>}
+        {o.customFees > 0 && <div className="flex justify-between"><dt>Personnalisation</dt><dd>{fcfa(o.customFees)}</dd></div>}
         {o.giftWrapFee > 0 && <div className="flex justify-between"><dt>Emballage cadeau</dt><dd>{fcfa(o.giftWrapFee)}</dd></div>}
         <div className="flex justify-between"><dt>{DELIVERY_LABEL[o.deliveryMode]}</dt><dd>{fcfa(o.deliveryFee)}</dd></div>
         <div className="flex justify-between border-t border-eden-charcoal/20 pt-2 font-semibold"><dt>Total</dt><dd>{fcfa(o.total)}</dd></div>

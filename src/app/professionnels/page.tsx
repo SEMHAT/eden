@@ -36,11 +36,11 @@ export default async function Pros() {
         </Container>
       </section>
 
-      <Container className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <Container className="mt-14 grid grid-cols-2 gap-2.5 sm:gap-4 lg:grid-cols-3">
         {FEATURES.map(([t, d]) => (
-          <div key={t} className="rounded-[var(--radius-card)] bg-white p-6 shadow-[var(--shadow-soft)]">
-            <p className="font-display text-lg font-semibold">{t}</p>
-            <p className="mt-2 text-sm text-eden-mute">{d}</p>
+          <div key={t} className="rounded-[1.25rem] bg-white p-4 shadow-[var(--shadow-soft)] sm:rounded-[var(--radius-card)] sm:p-6">
+            <p className="font-display text-[15px] font-medium sm:text-lg">{t}</p>
+            <p className="mt-1.5 text-xs text-eden-mute sm:mt-2 sm:text-sm">{d}</p>
           </div>
         ))}
       </Container>

@@ -57,14 +57,14 @@ export function Availability({ level, confirmedAt, compact }: { level: "CONFIRME
     return (
       <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[#4d6b54]">
         <span className="h-2 w-2 rounded-full bg-eden-botanical" aria-hidden />
-        {compact ? "Disponibilité confirmée" : `Disponibilité confirmée${confirmedAt ? ` le ${dateTimeFr(confirmedAt)}` : ""}`}
+        {compact ? <><span className="sm:hidden">Disponible</span><span className="hidden sm:inline">Disponibilité confirmée</span></> : `Disponibilité confirmée${confirmedAt ? ` le ${dateTimeFr(confirmedAt)}` : ""}`}
       </span>
     );
   if (level === "TO_CONFIRM")
     return (
       <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[#8a6a2a]">
         <span className="h-2 w-2 rounded-full bg-eden-gold" aria-hidden />
-        À confirmer auprès du vendeur
+        {compact ? <><span className="sm:hidden">À confirmer</span><span className="hidden sm:inline">À confirmer auprès du vendeur</span></> : "À confirmer auprès du vendeur"}
       </span>
     );
   return (

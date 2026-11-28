@@ -156,14 +156,14 @@ export default async function Boutique({ searchParams }: { searchParams: Promise
             <p className="text-sm text-eden-mute" role="status">
               {result.total} produit{result.total > 1 ? "s" : ""}
             </p>
-            <div className="flex flex-wrap gap-1.5 text-sm" role="group" aria-label="Trier">
+            <div className="-mx-5 flex gap-1.5 overflow-x-auto px-5 text-sm [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0" role="group" aria-label="Trier">
               {[
                 ["populaires", "Popularité"],
                 ["prix-asc", "Prix croissant"],
                 ["prix-desc", "Prix décroissant"],
                 ["nouveautes", "Nouveautés"],
               ].map(([v, l]) => (
-                <Link key={v} href={qs({ tri: v, page: undefined })} className={clsx("rounded-full px-3 py-1.5", filters.tri === v ? "bg-eden-green text-eden-ivory" : "bg-white hover:bg-eden-ivory-2")}>
+                <Link key={v} href={qs({ tri: v, page: undefined })} className={clsx("shrink-0 rounded-full px-3 py-1.5", filters.tri === v ? "bg-eden-green text-eden-ivory" : "bg-white hover:bg-eden-ivory-2")}>
                   {l}
                 </Link>
               ))}
@@ -177,7 +177,7 @@ export default async function Boutique({ searchParams }: { searchParams: Promise
               action={<ButtonLink href="/trouver">Trouver mon produit</ButtonLink>}
             />
           ) : (
-            <div className="grid grid-cols-1 gap-5 min-[480px]:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-2 gap-2.5 sm:gap-5 xl:grid-cols-3">
               {result.items.map((p) => (
                 <ProductCard key={p.id} p={p} favorite={favs.has(p.id)} back={qs({})} />
               ))}

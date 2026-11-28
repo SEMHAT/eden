@@ -26,6 +26,8 @@ Site lumineux et éditorial (ivoire, porcelaine, sauge, vert botanique, rouge po
 | Boutique | Catégories et sous-catégories, recherche, filtres (prix, marque, état, usage, disponibilité confirmée), tris, pagination, favoris, comparaison (4 produits) |
 | Fiche produit | Galerie avec zoom, photos et vidéo si fournies, vue 3D à la demande, caractéristiques, disponibilité datée, livraison, garantie, produits complémentaires, données structurées |
 | Trouver mon produit | Moteur déterministe : comprend budget, catégorie et usages en langage libre, interroge le catalogue et les offres vendeurs, classe, explique et compare |
+| Eden Studio | Personnalisation après le choix : coque (téléphones), capot et pochette (ordinateurs), couleur, motif, inscription, accessoires assortis. Aperçu 3D en direct, options de base offertes, suppléments recalculés côté serveur, visibles dans le panier, la commande, la facture et l'admin |
+| Import sur commande | Demande de produit introuvable localement, proposition tout compris (produit, transport, douane) avec délai, acceptation en ligne, suivi en 8 étapes, traitement dans l'admin |
 | Eden Gift | Parcours en 6 étapes : destinataire, occasion, budget, goûts, sélection, emballage et message |
 | Commandes | Panier, codes promo, emballage cadeau, livraison (standard, express, retrait), commande sans compte, anti double-soumission, suivi, annulation, confirmation de réception, réclamations, facture imprimable |
 | Vendeurs | Demandes de confirmation, acceptation ou refus avec motif, réaffectation automatique au vendeur suivant, expiration des demandes, gestion des offres et prix, statistiques |

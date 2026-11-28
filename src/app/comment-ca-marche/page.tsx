@@ -26,12 +26,12 @@ export default function HowItWorks() {
     <>
       <PageHeader title="Comment ça marche." tagline="Simple pour vous, rigoureux pour nous." />
       <Container className="mt-10">
-        <ol className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <ol className="grid grid-cols-2 gap-2.5 sm:gap-5 lg:grid-cols-4">
           {STEPS.map(([t, d], i) => (
-            <li key={t} className="rounded-[var(--radius-card)] bg-white p-6 shadow-[var(--shadow-soft)]">
+            <li key={t} className="rounded-[1.25rem] bg-white p-4 shadow-[var(--shadow-soft)] sm:rounded-[var(--radius-card)] sm:p-6">
               <span className="grid h-10 w-10 place-items-center rounded-full bg-eden-green font-display font-bold text-eden-gold-2">{i + 1}</span>
-              <p className="mt-4 font-display text-lg font-semibold">{t}</p>
-              <p className="mt-2 text-sm text-eden-mute">{d}</p>
+              <p className="mt-3 font-display text-[15px] font-medium sm:mt-4 sm:text-lg">{t}</p>
+              <p className="mt-1.5 text-xs leading-relaxed text-eden-mute sm:mt-2 sm:text-sm">{d}</p>
             </li>
           ))}
         </ol>

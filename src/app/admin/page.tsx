@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import clsx from "clsx";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { describeCustom } from "@/lib/custom-server";
 import { expireStaleRequests } from "@/lib/orders";
 import { TRANSITIONS } from "@/lib/order-flow";
 import { effectiveAvailability } from "@/lib/pricing";
@@ -13,6 +14,8 @@ import { ActionForm } from "@/components/ActionForm";
 import { AutoSubmit } from "@/components/AutoSubmit";
 import * as A from "@/actions/admin";
 import { logout } from "@/actions/auth";
+import { updateImport } from "@/actions/imports";
+import { IMPORT_LABEL } from "@/lib/imports";
 
 export const metadata: Metadata = { title: "Administration", robots: { index: false } };
 export const dynamic = "force-dynamic";
@@ -24,6 +27,7 @@ const TABS = [
   ["produits", "Produits et prix"],
   ["paiements", "Paiements"],
   ["devis", "Devis"],
+  ["imports", "Imports"],
   ["reclamations", "Réclamations"],
   ["utilisateurs", "Utilisateurs"],
   ["contenus", "Contenus et réglages"],
@@ -58,6 +62,7 @@ export default async function Admin({ searchParams }: { searchParams: Promise<SP
         {tab === "produits" && <Products q={sp.q} />}
         {tab === "paiements" && <Payments />}
         {tab === "devis" && <Quotes />}
+        {tab === "imports" && <Imports />}
         {tab === "reclamations" && <Claims />}
         {tab === "utilisateurs" && <Users q={sp.q} />}
         {tab === "contenus" && <Contents />}
@@ -71,13 +76,14 @@ const box = "rounded-[var(--radius-card)] bg-white p-5 shadow-[var(--shadow-soft
 
 async function Dashboard() {
   const since = new Date(Date.now() - 30 * 864e5);
-  const [orders30, byStatus, pendingReq, vendorsPending, quotesNew, claimsOpen, users, products, items] = await Promise.all([
+  const [orders30, byStatus, pendingReq, vendorsPending, quotesNew, claimsOpen, importsNew, users, products, items] = await Promise.all([
     db.order.findMany({ where: { createdAt: { gte: since } }, select: { total: true, status: true, createdAt: true, subtotal: true, discount: true } }),
     db.order.groupBy({ by: ["status"], _count: true }),
     db.vendorRequest.count({ where: { status: "PENDING" } }),
     db.vendor.count({ where: { status: "PENDING" } }),
     db.quote.count({ where: { status: "NEW" } }),
     db.claim.count({ where: { status: { in: ["OPEN", "IN_PROGRESS"] } } }),
+    db.importRequest.count({ where: { status: { in: ["NEW", "SOURCING", "ACCEPTED"] } } }),
     db.user.count(),
     db.product.count({ where: { active: true } }),
     db.orderItem.findMany({ where: { order: { createdAt: { gte: since }, status: { notIn: ["CANCELLED", "REFUNDED"] } }, status: { not: "CANCELLED" } }, select: { unitPrice: true, purchasePrice: true, quantity: true, productName: true } }),
@@ -109,11 +115,12 @@ async function Dashboard() {
           <div key={l} className={box}><p className="text-sm text-eden-mute">{l}</p><p className="mt-1 font-display text-2xl font-bold text-eden-green">{v}</p></div>
         ))}
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-7">
         {[
           ["Confirmations vendeur en attente", pendingReq, "commandes"],
           ["Vendeurs à valider", vendorsPending, "vendeurs"],
           ["Devis à traiter", quotesNew, "devis"],
+          ["Imports à traiter", importsNew, "imports"],
           ["Réclamations ouvertes", claimsOpen, "reclamations"],
           ["Utilisateurs", users, "utilisateurs"],
           ["Produits actifs", products, "produits"],
@@ -196,6 +203,7 @@ async function Orders({ status, q }: { status?: string; q?: string }) {
                   <li key={i.id} className="rounded-xl bg-eden-ivory p-3">
                     <p className="font-semibold">{i.quantity} × {i.productName} · {fcfa(i.unitPrice)} <span className="font-normal text-eden-mute">(achat {i.purchasePrice ? fcfa(i.purchasePrice) : "—"})</span></p>
                     <p className="text-xs text-eden-mute">Statut : {ITEM_STATUS_LABEL[i.status]}</p>
+                    {i.custom ? <p className="mt-1 rounded-lg bg-eden-gold/15 px-2 py-1 text-xs text-[#6b4f16]">À personnaliser : {describeCustom(i.custom).join(" · ")} (+ {fcfa(i.customFee)}/u)</p> : null}
                     <ul className="mt-1 text-xs text-eden-mute">
                       {i.requests.map((r) => <li key={r.id}>→ {r.vendor.shopName} : {REQUEST_STATUS_LABEL[r.status]}{r.reason ? ` (${r.reason})` : ""} · {dateTimeFr(r.createdAt)}</li>)}
                     </ul>
@@ -407,6 +415,39 @@ async function Quotes() {
             <input name="amount" defaultValue={q.amount ?? ""} placeholder="Montant proposé (FCFA)" className="w-full rounded-lg border border-eden-charcoal/15 px-3 py-2" />
             <textarea name="response" defaultValue={q.response ?? ""} placeholder="Réponse au client" className="w-full rounded-lg border border-eden-charcoal/15 px-3 py-2" rows={2} />
             <button className="rounded-full bg-eden-green px-4 py-2 text-eden-ivory">Enregistrer</button>
+          </form>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+async function Imports() {
+  const list = await db.importRequest.findMany({ orderBy: { createdAt: "desc" }, take: 100 });
+  return (
+    <div className="space-y-3">
+      {list.length === 0 && <p className={box}>Aucune demande d&apos;import.</p>}
+      {list.map((r) => (
+        <div key={r.id} className={clsx(box, "grid gap-4 text-sm lg:grid-cols-[1fr_380px]")}>
+          <div>
+            <p className="font-semibold">{r.number} · {r.product}</p>
+            <p className="text-eden-mute">{r.name} · {r.phone}{r.email ? ` · ${r.email}` : ""} · {dateFr(r.createdAt)}</p>
+            <p className="mt-1 text-eden-mute">Quantité {r.quantity}{r.budget ? ` · budget ${fcfa(r.budget)}` : ""}{r.origin ? ` · ${r.origin}` : ""}{r.deadline ? ` · ${r.deadline}` : ""}</p>
+            {r.link && <a href={r.link} target="_blank" rel="noopener noreferrer nofollow" className="mt-1 block break-all text-xs underline">{r.link}</a>}
+            {r.details && <p className="mt-2 whitespace-pre-line">{r.details}</p>}
+            <Link href={`/import/${r.number}`} className="mt-2 inline-block text-xs underline">Page de suivi client</Link>
+          </div>
+          <form action={updateImport} className="space-y-2">
+            <input type="hidden" name="id" value={r.id} />
+            <select name="status" defaultValue={r.status} className="w-full rounded-lg border border-eden-charcoal/15 bg-white px-3 py-2">
+              {Object.entries(IMPORT_LABEL).map(([k, l]) => <option key={k} value={k}>{l}</option>)}
+            </select>
+            <div className="flex gap-2">
+              <input name="quotedPrice" defaultValue={r.quotedPrice ?? ""} placeholder="Prix tout compris (FCFA)" className="w-full rounded-lg border border-eden-charcoal/15 px-3 py-2" />
+              <input name="etaDays" defaultValue={r.etaDays ?? ""} placeholder="Délai (jours)" className="w-32 rounded-lg border border-eden-charcoal/15 px-3 py-2" />
+            </div>
+            <textarea name="response" defaultValue={r.response ?? ""} placeholder="Message au client" rows={2} className="w-full rounded-lg border border-eden-charcoal/15 px-3 py-2" />
+            <button className="rounded-full bg-eden-charcoal px-4 py-2 text-eden-porcelain">Enregistrer</button>
           </form>
         </div>
       ))}

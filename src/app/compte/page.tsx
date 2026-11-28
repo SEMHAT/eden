@@ -9,6 +9,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { ActionForm } from "@/components/ActionForm";
 import { addAddress, deleteAddress } from "@/actions/shop";
 import { logout } from "@/actions/auth";
+import { IMPORT_LABEL } from "@/lib/imports";
 
 export const metadata: Metadata = { title: "Mon espace" };
 export const dynamic = "force-dynamic";
@@ -22,6 +23,7 @@ export default async function Compte() {
       orders: { orderBy: { createdAt: "desc" }, include: { items: true } },
       favorites: { include: { product: { select: productCardSelect } } },
       claims: { orderBy: { createdAt: "desc" }, include: { order: { select: { number: true } } } },
+      imports: { orderBy: { createdAt: "desc" } },
     },
   });
 
@@ -80,7 +82,7 @@ export default async function Compte() {
         {user.favorites.length === 0 ? (
           <p className="mt-3 text-sm text-eden-mute">Touchez le cœur d&apos;un produit pour le retrouver ici.</p>
         ) : (
-          <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-4 grid grid-cols-2 gap-2.5 sm:gap-5 lg:grid-cols-4">
             {user.favorites.map((f) => (
               <ProductCard key={f.productId} p={f.product} favorite back="/compte#favoris" />
             ))}
@@ -130,6 +132,20 @@ export default async function Compte() {
           </div>
         </ActionForm>
       </section>
+
+      {user.imports.length > 0 && (
+        <section id="imports" className="mt-14 scroll-mt-24">
+          <h2 className="font-display text-2xl font-semibold">Mes demandes d&apos;import</h2>
+          <ul className="mt-4 space-y-3">
+            {user.imports.map((r) => (
+              <li key={r.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white p-4 text-sm shadow-[var(--shadow-soft)]">
+                <span><span className="font-semibold">{r.product}</span> <span className="text-eden-mute">· {r.number} · {IMPORT_LABEL[r.status]}</span></span>
+                <Link href={`/import/${r.number}`} className="font-medium underline">Suivre</Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section id="reclamations" className="mt-14 scroll-mt-24">
         <h2 className="font-display text-2xl font-semibold">Mes réclamations</h2>

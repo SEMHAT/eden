@@ -117,6 +117,7 @@ model User {
   favorites      Favorite[]
   quotes         Quote[]
   claims         Claim[]
+  imports        ImportRequest[]
   createdAt      DateTime      @default(now())
 }
 
@@ -248,6 +249,7 @@ model CartItem {
   cart      Cart   @relation(fields: [cartId], references: [id], onDelete: Cascade)
   productId String
   quantity  Int    @default(1)
+  custom    Json? // personnalisation (coque, capot, pochette, accessoires)
 
   @@unique([cartId, productId])
 }
@@ -277,6 +279,7 @@ model Order {
   subtotal      Int
   discount      Int           @default(0)
   giftWrapFee   Int           @default(0)
+  customFees    Int           @default(0)
   total         Int
   promoCode     String?
   giftWrap      Boolean       @default(false)
@@ -304,6 +307,8 @@ model OrderItem {
   purchasePrice Int?
   vendorId      String?
   offerId       String?
+  custom        Json?
+  customFee     Int             @default(0) // supplément de personnalisation, par unité
   status        ItemStatus      @default(AWAITING_VENDOR)
   requests      VendorRequest[]
 }
@@ -399,4 +404,39 @@ model ActivityLog {
   createdAt DateTime @default(now())
 
   @@index([createdAt])
+}
+
+enum ImportStatus {
+  NEW // reçue
+  SOURCING // recherche du fournisseur
+  QUOTED // proposition envoyée
+  ACCEPTED // acceptée par le client
+  ORDERED // commandée à l'étranger
+  IN_TRANSIT // en transit
+  ARRIVED // arrivée à Lomé
+  DELIVERED
+  CANCELLED
+}
+
+model ImportRequest {
+  id          String       @id @default(cuid())
+  number      String       @unique
+  userId      String?
+  user        User?        @relation(fields: [userId], references: [id])
+  name        String
+  phone       String
+  email       String?
+  product     String
+  link        String?
+  details     String?
+  quantity    Int          @default(1)
+  budget      Int?
+  deadline    String?
+  origin      String? // Chine, Dubaï, Europe, États-Unis…
+  status      ImportStatus @default(NEW)
+  quotedPrice Int?
+  etaDays     Int?
+  response    String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }

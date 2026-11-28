@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import clsx from "clsx";
 import { db } from "@/lib/db";
+import { describeCustom } from "@/lib/custom-server";
 import { canSeeOrder } from "@/lib/access";
 import { getSession } from "@/lib/auth";
 import { TRACKING_STEPS, trackingIndex, CUSTOMER_CANCELLABLE } from "@/lib/order-flow";
@@ -85,8 +86,9 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
                       <span className={clsx("ml-2 text-xs", i.status === "CONFIRMED" ? "text-eden-green" : i.status === "UNAVAILABLE" ? "text-eden-red" : "text-eden-mute")}>
                         {i.status === "CONFIRMED" ? "confirmé" : i.status === "UNAVAILABLE" ? "indisponible" : i.status === "CANCELLED" ? "annulé" : "en attente du vendeur"}
                       </span>
+                      {i.custom ? <span className="mt-1 block text-xs text-eden-mute">Eden Studio : {describeCustom(i.custom).join(" · ")}</span> : null}
                     </span>
-                    <span>{fcfa(i.unitPrice * i.quantity)}</span>
+                    <span>{fcfa((i.unitPrice + i.customFee) * i.quantity)}</span>
                   </li>
                 ))}
               </ul>
@@ -121,6 +123,7 @@ export default async function OrderPage({ params, searchParams }: { params: Prom
               <dl className="space-y-1.5">
                 <div className="flex justify-between"><dt>Sous-total</dt><dd>{fcfa(order.subtotal)}</dd></div>
                 {order.discount > 0 && <div className="flex justify-between text-eden-green"><dt>Remise</dt><dd>− {fcfa(order.discount)}</dd></div>}
+                {order.customFees > 0 && <div className="flex justify-between"><dt>Personnalisation</dt><dd>{fcfa(order.customFees)}</dd></div>}
                 {order.giftWrapFee > 0 && <div className="flex justify-between"><dt>Emballage cadeau</dt><dd>{fcfa(order.giftWrapFee)}</dd></div>}
                 <div className="flex justify-between"><dt>Livraison</dt><dd>{fcfa(order.deliveryFee)}</dd></div>
                 <div className="flex justify-between pt-2 text-base font-semibold"><dt>Total</dt><dd className="text-eden-green">{fcfa(order.total)}</dd></div>

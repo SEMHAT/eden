@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { db } from "./db";
 import { cardAvailability, productCardSelect } from "./catalog";
 import { computeTotals, DELIVERY_FEES } from "./pricing";
+import { customFee, customKindFor, sanitize, type Customization } from "./custom";
 
 const COOKIE = "eden_cart";
 
@@ -37,18 +38,21 @@ export async function getCart() {
       const p = products.find((x) => x.id === i.productId);
       if (!p) return null;
       const a = cardAvailability(p);
-      return { itemId: i.id, quantity: i.quantity, product: p, price: a.price, availability: a.availability };
+      const kind = customKindFor(p.illustration);
+      const custom: Customization | null = kind && i.custom ? sanitize(i.custom, kind) : null;
+      return { itemId: i.id, quantity: i.quantity, product: p, price: a.price, availability: a.availability, custom, customFee: custom ? customFee(custom) : 0, customizable: Boolean(kind) };
     })
     .filter((l): l is NonNullable<typeof l> => l !== null);
   const orderable = lines.filter((l) => l.price !== null && l.availability !== "OUT_OF_STOCK");
   const subtotal = orderable.reduce((s, l) => s + (l.price ?? 0) * l.quantity, 0);
+  const customFees = orderable.reduce((s, l) => s + l.customFee * l.quantity, 0);
   let promoPercent = 0;
   if (cart.promoCode) {
     const promo = await db.promoCode.findUnique({ where: { code: cart.promoCode } });
     if (promo && promo.active && (!promo.expiresAt || promo.expiresAt > new Date()) && (promo.maxUses === null || promo.uses < promo.maxUses))
       promoPercent = promo.percent;
   }
-  return { id: cart.id, lines, subtotal, promoCode: promoPercent ? cart.promoCode : null, promoPercent, giftWrap: cart.giftWrap, giftNote: cart.giftNote };
+  return { id: cart.id, lines, subtotal, customFees, promoCode: promoPercent ? cart.promoCode : null, promoPercent, giftWrap: cart.giftWrap, giftNote: cart.giftNote };
 }
 
 export async function cartCount() {
@@ -60,5 +64,5 @@ export async function cartCount() {
 
 export function cartTotals(cart: NonNullable<Awaited<ReturnType<typeof getCart>>>, mode: keyof typeof DELIVERY_FEES = "STANDARD") {
   const deliveryFee = DELIVERY_FEES[mode];
-  return { ...computeTotals({ subtotal: cart.subtotal, deliveryFee, promoPercent: cart.promoPercent, giftWrap: cart.giftWrap }), deliveryFee, subtotal: cart.subtotal };
+  return { ...computeTotals({ subtotal: cart.subtotal, deliveryFee, promoPercent: cart.promoPercent, giftWrap: cart.giftWrap, customFees: cart.customFees }), deliveryFee, subtotal: cart.subtotal };
 }

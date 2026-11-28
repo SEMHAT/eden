@@ -129,9 +129,10 @@ export async function dropUnavailableItems(orderId: string, actor: string) {
     await tx.orderItem.updateMany({ where: { orderId, status: "UNAVAILABLE" }, data: { status: "CANCELLED" } });
     const kept = order.items.filter((i) => i.status !== "UNAVAILABLE" && i.status !== "CANCELLED");
     const subtotal = kept.reduce((s, i) => s + i.unitPrice * i.quantity, 0);
+    const customFees = kept.reduce((s, i) => s + i.customFee * i.quantity, 0);
     const discount = order.subtotal > 0 ? Math.round((order.discount * subtotal) / order.subtotal) : 0;
-    const total = Math.max(0, subtotal - discount) + order.deliveryFee + order.giftWrapFee;
-    await tx.order.update({ where: { id: orderId }, data: { subtotal, discount, total } });
+    const total = Math.max(0, subtotal - discount) + customFees + order.deliveryFee + order.giftWrapFee;
+    await tx.order.update({ where: { id: orderId }, data: { subtotal, discount, customFees, total } });
     await tx.orderEvent.create({
       data: { orderId, status: "ACTION_REQUIRED", note: `${removed.length} article(s) retiré(s), nouveau total recalculé.`, actor },
     });

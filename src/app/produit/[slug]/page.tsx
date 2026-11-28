@@ -14,6 +14,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { Shelf } from "@/components/Shelf";
 import { toggleFavorite } from "@/actions/shop";
 import { buyNow } from "@/actions/cart";
+import { customKindFor } from "@/lib/custom";
 
 export const dynamic = "force-dynamic";
 
@@ -117,7 +118,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               </p>
             )}
             {best && level !== "OUT_OF_STOCK" ? (
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="mt-6 grid gap-3 sm:flex sm:items-center">
                 <AddToCart productId={p.id} quantity />
                 <form action={buyNow}>
                   <input type="hidden" name="productId" value={p.id} />
@@ -142,16 +143,31 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             </div>
           </div>
 
-          <dl className="mt-6 grid gap-3 text-sm sm:grid-cols-3">
-            <div className="rounded-2xl bg-white/70 p-4">
+          {customKindFor(p.illustration) && best && level !== "OUT_OF_STOCK" && (
+            <Link href={`/personnaliser/${p.slug}`} className="group mt-4 flex items-center justify-between gap-4 rounded-[var(--radius-card)] bg-eden-ivory p-5 ring-1 ring-eden-charcoal/[0.06] transition hover:ring-eden-charcoal/20">
+              <span>
+                <span className="eyebrow">Eden Studio</span>
+                <span className="mt-1 block font-display text-lg font-medium">
+                  {customKindFor(p.illustration) === "phone" ? "Personnalisez votre coque" : "Personnalisez le capot et la pochette"}
+                </span>
+                <span className="mt-0.5 block text-sm text-eden-mute">
+                  {customKindFor(p.illustration) === "phone" ? "Coque offerte : couleur, motif, inscription, accessoires assortis." : "Capot et pochette offerts : couleur, finition, inscription, accessoires."}
+                </span>
+              </span>
+              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-eden-charcoal text-eden-porcelain transition group-hover:translate-x-0.5">→</span>
+            </Link>
+          )}
+
+          <dl className="mt-6 grid grid-cols-3 gap-2 text-xs sm:gap-3 sm:text-sm">
+            <div className="rounded-2xl bg-white/70 p-3 sm:p-4">
               <dt className="font-semibold">Livraison</dt>
               <dd className="mt-1 text-eden-mute">Lomé : {fcfa(DELIVERY_FEES.STANDARD)}, express {fcfa(DELIVERY_FEES.EXPRESS)}. Retrait gratuit.</dd>
             </div>
-            <div className="rounded-2xl bg-white/70 p-4">
+            <div className="rounded-2xl bg-white/70 p-3 sm:p-4">
               <dt className="font-semibold">Garantie</dt>
               <dd className="mt-1 text-eden-mute">{p.warrantyMonths > 0 ? `${p.warrantyMonths} mois, selon les conditions du vendeur et d'Eden.` : "Sans garantie."}</dd>
             </div>
-            <div className="rounded-2xl bg-white/70 p-4">
+            <div className="rounded-2xl bg-white/70 p-3 sm:p-4">
               <dt className="font-semibold">Contrôle</dt>
               <dd className="mt-1 text-eden-mute">Vérifié par Eden avant la remise.</dd>
             </div>

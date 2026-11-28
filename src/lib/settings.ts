@@ -10,12 +10,14 @@ export const SERVICES = [
   { key: "check", eyebrow: "CONTRÔLE", title: "Un produit contrôlé.", text: "Vérifié selon les procédures Eden avant la livraison.", href: "/comment-ca-marche" },
   { key: "delivery", eyebrow: "LIVRAISON", title: "Une livraison suivie.", text: "Chaque étape de votre commande est visible en ligne.", href: "/comment-ca-marche" },
   { key: "bonus", eyebrow: "BONUS EDEN", title: "Des points à chaque achat.", text: "Échangeables contre des bonus de personnalisation.", href: "/compte" },
+  { key: "studio", eyebrow: "EDEN STUDIO", title: "Rendez-le unique.", text: "Coque, capot, pochette et accessoires personnalisés, avec aperçu 3D.", href: "/boutique?categorie=smartphones" },
+  { key: "import", eyebrow: "IMPORT", title: "Introuvable ici ? On le fait venir.", text: "Prix tout compris et délai annoncé avant de commander.", href: "/import" },
   { key: "pro", eyebrow: "PROFESSIONNELS", title: "Équipez vos équipes.", text: "Devis, commandes en quantité et facturation.", href: "/professionnels" },
   { key: "tradein", eyebrow: "REPRISE", title: "Votre ancien appareil vaut quelque chose.", text: "Reprise déduite du prix du nouveau.", href: "/comment-ca-marche" },
   { key: "installments", eyebrow: "PAIEMENT", title: "Payez en plusieurs fois.", text: "Selon conditions, sur les achats éligibles.", href: "/comment-ca-marche" },
 ] as const;
 
-export const DEFAULT_ENABLED = ["budget", "gift", "verified", "confirmed", "check", "delivery", "bonus", "pro"];
+export const DEFAULT_ENABLED = ["budget", "gift", "studio", "import", "verified", "confirmed", "check", "delivery", "bonus", "pro"];
 
 export async function getEnabledServices(): Promise<string[]> {
   try {

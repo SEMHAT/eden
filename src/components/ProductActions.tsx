@@ -12,7 +12,7 @@ function SubmitAdd({ compact, label }: { compact?: boolean; label: string }) {
       disabled={pending}
       className={clsx(
         "inline-flex items-center justify-center gap-2 rounded-full bg-eden-charcoal font-medium text-eden-porcelain transition hover:bg-eden-green-2 disabled:opacity-60",
-        compact ? "h-10 w-10" : "px-5 py-2.5 text-sm",
+        compact ? "h-9 w-9 sm:h-10 sm:w-10" : "px-5 py-2.5 text-sm",
       )}
       aria-label={label}
     >
@@ -31,7 +31,7 @@ export function AddToCart({ productId, compact, label = "Ajouter au panier", qua
   const [state, action] = useActionState(addToCart, null);
   const [qty, setQty] = useState(1);
   return (
-    <form action={action} className="flex items-center gap-2">
+    <form action={action} className={clsx("flex items-center gap-2", quantity && "[&>button]:flex-1 sm:[&>button]:flex-none")}>
       <input type="hidden" name="productId" value={productId} />
       {quantity && (
         <div className="flex items-center rounded-full border border-eden-charcoal/15 bg-white">

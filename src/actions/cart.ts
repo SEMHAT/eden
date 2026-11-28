@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { getCartId } from "@/lib/cart";
+import { customKindFor, sanitize } from "@/lib/custom";
 
 export type ActionState = { ok?: boolean; error?: string; message?: string } | null;
 
@@ -66,4 +67,30 @@ export async function setGiftOptions(form: FormData) {
     const { redirect } = await import("next/navigation");
     redirect("/panier");
   }
+}
+
+/** Enregistre la personnalisation d'un produit dans le panier (l'ajoute si besoin). Le prix est recalculé côté serveur. */
+export async function saveCustomization(productId: string, input: unknown): Promise<ActionState> {
+  const product = await db.product.findUnique({ where: { id: productId }, select: { id: true, illustration: true, active: true, fromPrice: true } });
+  if (!product || !product.active || product.fromPrice === null) return { error: "Ce produit n'est pas disponible à la commande." };
+  const kind = customKindFor(product.illustration);
+  if (!kind) return { error: "Ce produit ne se personnalise pas." };
+  const custom = sanitize(input, kind);
+  if (!custom) return { error: "Personnalisation invalide." };
+  const cartId = (await getCartId(true))!;
+  await db.cartItem.upsert({
+    where: { cartId_productId: { cartId, productId } },
+    update: { custom },
+    create: { cartId, productId, quantity: 1, custom },
+  });
+  revalidatePath("/", "layout");
+  return { ok: true, message: "Personnalisation enregistrée" };
+}
+
+export async function removeCustomization(form: FormData) {
+  const cartId = await getCartId(false);
+  if (!cartId) return;
+  const { Prisma } = await import("@prisma/client");
+  await db.cartItem.updateMany({ where: { id: String(form.get("itemId")), cartId }, data: { custom: Prisma.DbNull } });
+  revalidatePath("/panier");
 }

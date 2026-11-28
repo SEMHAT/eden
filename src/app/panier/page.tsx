@@ -7,7 +7,8 @@ import { Container, PageHeader, EmptyState, ButtonLink, Availability, Price } fr
 import { DeviceArt } from "@/components/DeviceArt";
 import { ActionForm } from "@/components/ActionForm";
 import { AutoSubmit } from "@/components/AutoSubmit";
-import { updateQuantity, applyPromo, setGiftOptions } from "@/actions/cart";
+import { updateQuantity, applyPromo, setGiftOptions, removeCustomization } from "@/actions/cart";
+import { describe } from "@/lib/custom";
 
 export const metadata: Metadata = { title: "Panier" };
 export const dynamic = "force-dynamic";
@@ -40,6 +41,22 @@ export default async function Panier() {
                 <p className="text-xs uppercase tracking-wider text-eden-mute">{l.product.brand}</p>
                 <Link href={`/produit/${l.product.slug}`} className="font-display font-semibold hover:underline">{l.product.name}</Link>
                 <div className="mt-1"><Availability level={l.availability} compact /></div>
+                {l.custom ? (
+                  <div className="mt-2 rounded-xl bg-eden-ivory px-3 py-2 text-xs text-eden-mute">
+                    <p className="font-medium text-eden-charcoal">Personnalisé avec Eden Studio{l.customFee ? ` · + ${fcfa(l.customFee)}` : " · offert"}</p>
+                    <p className="mt-0.5">{describe(l.custom).join(" · ")}</p>
+                    <div className="mt-1 flex gap-3">
+                      <Link href={`/personnaliser/${l.product.slug}`} className="font-medium text-eden-charcoal underline">Modifier</Link>
+                      <form action={removeCustomization}><input type="hidden" name="itemId" value={l.itemId} /><button className="underline">Retirer</button></form>
+                    </div>
+                  </div>
+                ) : (
+                  l.customizable && (
+                    <Link href={`/personnaliser/${l.product.slug}`} className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-[#4d6b54] underline-offset-4 hover:underline">
+                      ✦ Personnaliser avec Eden Studio ({l.product.illustration === "phone" ? "coque offerte" : "capot et pochette offerts"})
+                    </Link>
+                  )
+                )}
                 <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-3">
                   <AutoSubmit>
                   <form action={updateQuantity} className="flex items-center gap-2">
@@ -54,7 +71,7 @@ export default async function Panier() {
                   </form>
                   </AutoSubmit>
                   <div className="flex items-center gap-4">
-                    <Price value={l.price !== null ? l.price * l.quantity : null} className="text-lg" />
+                    <Price value={l.price !== null ? (l.price + l.customFee) * l.quantity : null} className="text-lg" />
                     <form action={updateQuantity}>
                       <input type="hidden" name="itemId" value={l.itemId} />
                       <input type="hidden" name="quantity" value="0" />
@@ -86,6 +103,7 @@ export default async function Panier() {
             <dl className="mt-4 space-y-2 text-sm">
               <Row label="Sous-total" value={fcfa(t.subtotal)} />
               {t.discount > 0 && <Row label={`Code ${cart.promoCode} (−${cart.promoPercent} %)`} value={`− ${fcfa(t.discount)}`} accent />}
+              {t.customFees > 0 && <Row label="Personnalisation" value={fcfa(t.customFees)} />}
               {t.giftWrapFee > 0 && <Row label="Emballage cadeau" value={fcfa(t.giftWrapFee)} />}
               <Row label="Livraison standard (Lomé)" value={fcfa(t.deliveryFee)} muted />
               <div className="flex justify-between border-t border-eden-charcoal/10 pt-3 text-base font-semibold">

@@ -72,13 +72,20 @@ export async function placeOrder(_: ActionState, form: FormData): Promise<Action
         subtotal: totals.subtotal,
         discount: totals.discount,
         giftWrapFee: totals.giftWrapFee,
+        customFees: totals.customFees,
         total: totals.total,
         promoCode: cart.promoCode,
         giftWrap: cart.giftWrap,
         giftNote: cart.giftNote,
         paymentMethod: d.paymentMethod,
         items: {
-          create: lines.map((l) => ({ productId: l.product.id, productName: `${l.product.brand} ${l.product.name}`, quantity: l.quantity, unitPrice: l.price! })),
+          create: lines.map((l) => ({
+            productId: l.product.id,
+            productName: `${l.product.brand} ${l.product.name}`,
+            quantity: l.quantity,
+            unitPrice: l.price!,
+            ...(l.custom ? { custom: l.custom, customFee: l.customFee } : {}),
+          })),
         },
         events: {
           create: [

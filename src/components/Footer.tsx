@@ -22,8 +22,8 @@ export function Footer() {
             </Link>
           ))}
         </div>
-        <div className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 py-12 lg:grid-cols-4 lg:py-14">
+          <div className="col-span-2 lg:col-span-1">
             <div className="flex items-center gap-3">
               <Image src="/brand/eden-logo.webp" alt="" width={30} height={39} className="h-10 w-auto" />
               <span className="font-display text-xl font-semibold tracking-[0.18em]">EDEN</span>
@@ -33,7 +33,7 @@ export function Footer() {
             <div className="mt-5"><ReplayIntro /></div>
           </div>
           <FooterCol title="Boutique" links={[["/boutique?categorie=smartphones", "Smartphones"], ["/boutique?categorie=ordinateurs", "Ordinateurs"], ["/boutique?categorie=audio-accessoires", "Audio et accessoires"], ["/boutique?categorie=gaming", "Gaming"], ["/boutique?categorie=energie", "Énergie et recharge"], ["/boutique?categorie=bureau", "Équipements de bureau"]]} />
-          <FooterCol title="Services" links={[["/trouver", "Trouver mon produit"], ["/eden-gift", "Eden Gift"], ["/comparer", "Comparer"], ["/comment-ca-marche", "Comment ça marche"]]} />
+          <FooterCol title="Services" links={[["/trouver", "Trouver mon produit"], ["/eden-gift", "Eden Gift"], ["/import", "Import sur commande"], ["/comparer", "Comparer"], ["/comment-ca-marche", "Comment ça marche"]]} />
           <FooterCol title="Espaces" links={[["/compte", "Espace client"], ["/espace-pro", "Espace professionnel"], ["/vendeur", "Espace vendeur"], ["/professionnels", "Demander un devis"]]} />
         </div>
         {demo && (

@@ -3,6 +3,7 @@ import { computeSalePrice, effectiveAvailability, bestOffer, nextOfferToRequest,
 import { parseBudget, parseQuery, recommend, explainDifference, type RecoProduct } from "@/lib/reco";
 import { canTransition, aggregateItemsStatus } from "@/lib/order-flow";
 import { pickGifts } from "@/lib/gift";
+import { sanitize, customFee, defaultCustomization, describe as describeCustom } from "@/lib/custom";
 
 describe("prix", () => {
   it("applique la marge et arrondit à la centaine", () => {
@@ -16,8 +17,11 @@ describe("prix", () => {
     expect(computeTotals({ subtotal: 100000, deliveryFee: 1500, promoPercent: 5, giftWrap: true })).toEqual({
       discount: 5000,
       giftWrapFee: 2000,
+      customFees: 0,
       total: 98500,
     });
+    // la personnalisation s'ajoute sans être remisée
+    expect(computeTotals({ subtotal: 100000, deliveryFee: 0, promoPercent: 10, customFees: 7000 }).total).toBe(97000);
     expect(bonusFor(98500)).toBe(98);
   });
 });
@@ -114,5 +118,24 @@ describe("Eden Gift", () => {
     ];
     const picks = pickGifts(items, { recipient: "ado", occasion: "anniversaire", budget: 50000, preferences: ["musique"] });
     expect(picks.map((p) => p.product.id)).toEqual(["casque"]);
+  });
+});
+
+describe("Eden Studio", () => {
+  it("la personnalisation par défaut est offerte", () => {
+    expect(customFee(defaultCustomization("phone"))).toBe(0);
+    expect(customFee(defaultCustomization("laptop"))).toBe(0);
+  });
+  it("calcule les suppléments côté serveur et ignore les options inventées", () => {
+    const c = sanitize({ style: "cuir", color: "pomme", pattern: "monogramme", text: "Manu<script>", accessories: ["verre", "verre", "fusee"] }, "phone");
+    expect(c).not.toBeNull();
+    expect(c!.text).toBe("Manuscript");
+    expect(c!.accessories).toEqual(["verre"]);
+    expect(customFee(c!)).toBe(6000 + 1000 + 3000);
+    expect(describeCustom(c!).join(" | ")).toMatch(/Coque cuir végétal, rouge pomme/);
+  });
+  it("refuse un style ou une couleur inconnus", () => {
+    expect(sanitize({ style: "or-massif", color: "pomme", pattern: "uni" }, "phone")).toBeNull();
+    expect(sanitize({ style: "mat", color: "fluo", pattern: "uni" }, "laptop")).toBeNull();
   });
 });

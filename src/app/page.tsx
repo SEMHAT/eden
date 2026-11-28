@@ -197,6 +197,51 @@ export default async function Home() {
         </div>
       </Experience>
 
+      {/* Eden Studio et import */}
+      <section className="bg-eden-porcelain pt-24" aria-label="Eden Studio et import">
+        <Container className="grid gap-5 lg:grid-cols-2">
+          <Reveal>
+            <Link href={phones[0] ? `/personnaliser/${phones[0].slug}` : "/boutique?categorie=smartphones"} className="group relative flex min-h-[26rem] flex-col justify-between overflow-hidden rounded-[2.25rem] bg-eden-ivory p-8 sm:p-12">
+              <div className="pointer-events-none absolute -right-16 -top-16 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgba(167,185,165,0.45),transparent_65%)]" />
+              <div className="relative">
+                <p className="eyebrow">Eden Studio</p>
+                <h2 className="mt-3 font-display text-[clamp(1.9rem,1.2rem+2.2vw,3.2rem)] font-medium leading-[1.02] tracking-[-0.035em]">
+                  Rendez-le <span className="serif-accent">unique.</span>
+                </h2>
+                <p className="mt-4 max-w-sm text-eden-mute">Coque offerte avec chaque téléphone, capot et pochette offerts avec chaque ordinateur. Couleur, motif, inscription, accessoires : vous voyez le résultat en 3D avant de commander.</p>
+              </div>
+              <div className="relative mt-8 flex items-center gap-4">
+                <div className="flex -space-x-2">
+                  {["#a7b9a5", "#b82e35", "#c6a36a", "#33312e", "#9fb4c7"].map((c) => (
+                    <span key={c} className="h-9 w-9 rounded-full ring-2 ring-eden-ivory" style={{ background: c }} />
+                  ))}
+                </div>
+                <span className="text-sm font-medium group-hover:underline">Essayer le studio →</span>
+              </div>
+            </Link>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <Link href="/import" className="group relative flex min-h-[26rem] flex-col justify-between overflow-hidden rounded-[2.25rem] bg-[#efe7da] p-8 sm:p-12">
+              <div className="relative">
+                <p className="eyebrow">Import sur commande</p>
+                <h2 className="mt-3 font-display text-[clamp(1.9rem,1.2rem+2.2vw,3.2rem)] font-medium leading-[1.02] tracking-[-0.035em]">
+                  Introuvable ici ? <span className="serif-accent">On le fait venir.</span>
+                </h2>
+                <p className="mt-4 max-w-sm text-eden-mute">Chine, Dubaï, Europe, États-Unis : Eden source le modèle exact, annonce un prix tout compris et un délai, puis contrôle le produit à son arrivée à Lomé.</p>
+              </div>
+              <div className="relative mt-8 flex flex-wrap items-center gap-2 text-xs text-eden-mute">
+                {["Demande", "Proposition", "Commande", "Transit", "Livraison"].map((s, i) => (
+                  <span key={s} className="flex items-center gap-2">
+                    <span className="rounded-full bg-eden-porcelain px-3 py-1.5">{s}</span>
+                    {i < 4 && <span aria-hidden>→</span>}
+                  </span>
+                ))}
+              </div>
+            </Link>
+          </Reveal>
+        </Container>
+      </section>
+
       {/* Eden Gift */}
       <section className="bg-eden-porcelain py-24" aria-labelledby="gift-title">
         <Container>

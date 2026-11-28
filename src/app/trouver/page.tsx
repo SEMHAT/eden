@@ -124,7 +124,7 @@ export default async function Trouver({ searchParams }: { searchParams: Promise<
               <EmptyState
                 title="Rien ne correspond exactement pour l'instant."
                 text={q.budget ? `Aucun produit disponible ne rentre dans ${fcfa(q.budget)} pour ces critères. Essayez un budget un peu plus large ou une autre catégorie.` : "Essayez de préciser votre budget ou la catégorie."}
-                action={<ButtonLink href="/professionnels#devis" variant="outline">Faire une demande personnalisée</ButtonLink>}
+                action={<ButtonLink href={`/import?produit=${encodeURIComponent(text)}${q.budget ? `&budget=${q.budget}` : ""}`} variant="outline">Le faire venir sur commande</ButtonLink>}
               />
             </div>
           ) : (

@@ -115,7 +115,17 @@ async function main() {
 
   const already = await db.product.count();
   if (already > 0 && process.env.SEED_FORCE !== "true") {
-    console.log(`[seed] ${already} produits déjà présents : rien à faire (SEED_FORCE=true pour réinitialiser).`);
+    // En démonstration, les confirmations vendeur (valables 72 h) sont renouvelées à chaque déploiement,
+    // pour refléter un catalogue tenu à jour. Les offres en rupture restent en rupture.
+    if (process.env.DEMO_MODE === "true") {
+      const demo = await db.offer.findMany({ where: { vendor: { shopName: { startsWith: "Démo" } }, availability: { not: "OUT_OF_STOCK" } }, select: { id: true } });
+      let i = 0;
+      for (const o of demo) {
+        if (i++ % 4 === 3) continue; // une offre sur quatre reste « à confirmer »
+        await db.offer.update({ where: { id: o.id }, data: { availability: "CONFIRMED", lastConfirmedAt: new Date(Date.now() - (i % 20) * 36e5) } });
+      }
+      console.log(`[seed] Démonstration : confirmations vendeur renouvelées (${demo.length} offres).`);
+    } else console.log(`[seed] ${already} produits déjà présents : rien à faire (SEED_FORCE=true pour réinitialiser).`);
     return;
   }
   if (already > 0) {

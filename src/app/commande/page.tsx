@@ -35,8 +35,9 @@ export default async function Checkout() {
             note: user?.addresses[0]?.details ?? "",
           }}
           addresses={user?.addresses.map((a) => ({ id: a.id, label: a.label, city: a.city, district: a.district, details: a.details ?? "", phone: a.phone })) ?? []}
-          lines={lines.map((l) => ({ name: `${l.product.brand} ${l.product.name}`, quantity: l.quantity, price: l.price! }))}
+          lines={lines.map((l) => ({ name: `${l.product.brand} ${l.product.name}${l.custom ? " (personnalisé)" : ""}`, quantity: l.quantity, price: l.price! + l.customFee }))}
           subtotal={cart.subtotal}
+          customFees={cart.customFees}
           promoPercent={cart.promoPercent}
           giftWrap={cart.giftWrap}
           fees={DELIVERY_FEES}

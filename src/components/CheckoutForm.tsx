@@ -28,6 +28,7 @@ export function CheckoutForm(props: {
   addresses: Addr[];
   lines: { name: string; quantity: number; price: number }[];
   subtotal: number;
+  customFees: number;
   promoPercent: number;
   giftWrap: boolean;
   fees: { PICKUP: number; STANDARD: number; EXPRESS: number };
@@ -36,7 +37,7 @@ export function CheckoutForm(props: {
   const [state, action] = useActionState(placeOrder, null);
   const [mode, setMode] = useState<"PICKUP" | "STANDARD" | "EXPRESS">("STANDARD");
   const [addr, setAddr] = useState(props.defaults);
-  const t = computeTotals({ subtotal: props.subtotal, deliveryFee: props.fees[mode], promoPercent: props.promoPercent, giftWrap: props.giftWrap });
+  const t = computeTotals({ subtotal: props.subtotal, deliveryFee: props.fees[mode], promoPercent: props.promoPercent, giftWrap: props.giftWrap, customFees: props.customFees });
   const firstEnabled = props.methods.find((m) => m.enabled)?.method ?? "CASH_ON_DELIVERY";
 
   return (
@@ -141,6 +142,7 @@ export function CheckoutForm(props: {
           </ul>
           <dl className="mt-4 space-y-1.5 border-t border-eden-charcoal/10 pt-4 text-sm">
             <div className="flex justify-between"><dt>Sous-total</dt><dd>{fcfa(props.subtotal)}</dd></div>
+            {t.customFees > 0 && <div className="flex justify-between"><dt>Personnalisation</dt><dd>{fcfa(t.customFees)}</dd></div>}
             {t.discount > 0 && <div className="flex justify-between text-eden-green"><dt>Remise</dt><dd>− {fcfa(t.discount)}</dd></div>}
             {t.giftWrapFee > 0 && <div className="flex justify-between"><dt>Emballage cadeau</dt><dd>{fcfa(t.giftWrapFee)}</dd></div>}
             <div className="flex justify-between"><dt>Livraison</dt><dd>{props.fees[mode] === 0 ? "Gratuit" : fcfa(props.fees[mode])}</dd></div>
